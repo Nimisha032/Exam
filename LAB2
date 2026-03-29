@@ -1,0 +1,44 @@
+import Header from './Header';
+import Footer from './Footer';
+const App=()=>{
+    return(
+        <div style={{textAlign:'center'}}>
+            <Header title="React props demo"/>
+            <main>
+                <h1>Welcom to react props</h1>
+                <p> This program shows how blah blah</p>
+            </main>
+            <Footer copyright=' @ 2025 My react app all rights are reserved '/>
+            </div>
+    );
+};
+export default App;
+
+HEADER.JSX
+import PropTypes from 'prop-types';
+const Header = ({ title }) => {
+return (
+<header>
+<h1>{title}</h1>
+</header>
+);
+};
+Header.propTypes = {
+title: PropTypes.string.isRequired,
+};
+export default Header;
+
+
+FOOTER.JSX
+import PropTypes from 'prop-types';
+const Footer = ({ copyright }) => {
+return (
+<footer>
+<p>{copyright}</p>
+</footer>
+);
+};
+Footer.propTypes = {
+copyright: PropTypes.string.isRequired,
+};
+export default Footer;
