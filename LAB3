@@ -1,0 +1,60 @@
+import { useState } from "react";
+
+const App=()=>{
+  const[count,setCount]=useState(0);
+  const[step,setStep]=useState(1);
+
+  const increase=()=> setCount(count+step);
+  const decrease=()=> setCount(count-step >=0 ?count-step:0 );
+  const reset=()=> setCount(0);
+
+  return(
+    <div style={StyleSheet.container}>
+      <h1> Counter Application</h1>
+      <p> Counter value ={count} </p>
+
+      <div>
+        <label>step value</label>
+        <input
+        type="number"
+        placeholder="Enter step value"
+        value={step}
+        onChange={(e)=> setStep(Number(e.target.value))}
+        style={StyleSheet.input}
+        />
+</div>
+      <div>
+        <button onClick={increase} style={StyleSheet.button}>Increase</button>
+         <button onClick={decrease} style={StyleSheet.button}>decrease</button>
+          <button onClick={reset} style={StyleSheet.button}>Reset</button>
+      </div>
+
+
+    </div>
+  );
+};
+
+const styles={
+  container: {textAlign: 'center',
+    fontFamily: 'Arial, sans-serif',
+    marginTop: '50px',
+  },
+  button: {margin: '10px',
+    padding: '10px 20px',
+    fontSize: '16px',
+    cursor: 'pointer',  
+  },
+  resetButton: {margin: '10px',
+    padding: '10px 20px',
+    fontSize: '16px',
+    cursor: 'pointer',
+    backgroundColor: 'red',
+    color: 'white',
+  },
+  input: {marginLeft: '10px',
+    padding: '5px',
+    fontSize: '16px', 
+  },
+
+  };
+export default App;
