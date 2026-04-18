@@ -1,0 +1,51 @@
+App.jsx
+import React, {useState} from 'react';
+
+import SampleImage from './assets/sampleimage.jpg';
+
+const ProfileCard=({name,bio,initialBg})=>{
+    const[bg,setBg]=useState(initialBg);
+
+    return(
+        <div
+            className='card'
+            style={{background:bg}}
+            onMouseEnter={()=>setBg("red")}
+            onMouseLeave={()=>setBg(initialBg)}
+            >
+        <img src={SampleImage} alt={name}/>
+        <h2>{name}</h2>
+        <h3> {bio}</h3>
+        </div>
+    )
+    }
+export default function App(){
+    
+    return(
+        <div className='container'>
+            <ProfileCard
+            name='Steve Jobs'
+            bio='Co-founder of Apple'
+            initialBg="lightblue"
+            />
+        </div>
+    )
+}
+    
+    index.css
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.card h2,h3{
+  text-align: center;
+  font-weight: bold;
+}
