@@ -13,7 +13,6 @@ const Form = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
 
-  // handle input
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -22,7 +21,6 @@ const Form = () => {
     });
   };
 
-  // validation
   const validateForm = () => {
     let err = {};
     let valid = true;
@@ -63,7 +61,6 @@ const Form = () => {
     validateForm();
   }, [formData]);
 
-  // submit
   const handleSubmit = (e) => {
     e.preventDefault();
 
