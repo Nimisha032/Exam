@@ -1,0 +1,129 @@
+App.jsx
+import React, { useState } from "react";
+import './App.css';
+function App() {
+  const [tasks, setTasks] = useState([]);
+  const [name, setName] = useState("");
+  const [date, setDate] = useState("");
+  const [desc, setDesc] = useState("");
+  const [filter, setFilter] = useState("all");
+
+  // Add task
+  const addTask = (e) => {
+    e.preventDefault();
+
+    if (name === "" || date === "") return;
+
+    const newTask = {
+      name: name,
+      date: date,
+      desc: desc,
+      done: false,
+    };
+
+    setTasks([...tasks, newTask]);
+
+    setName("");
+    setDate("");
+    setDesc("");
+  };
+
+  // Toggle done
+  const toggleTask = (index) => {
+    const updated = tasks.map((task, i) => {
+      if (i === index) {
+        return { ...task, done: !task.done };
+      }
+      return task;
+    });
+
+    setTasks(updated);
+  };
+
+  // Filter logic (VERY SIMPLE)
+  const filteredTasks = tasks.filter((task) => {
+    if (filter === "all") return true;
+    if (filter === "done") return task.done === true;
+    if (filter === "notdone") return task.done === false;
+  });
+
+  return (
+    <div>
+      <h1>Reminder App</h1>
+
+      <form onSubmit={addTask}>
+        <input
+          type="text"
+          placeholder="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+
+        <input
+          type="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+        />
+
+        <input
+          type="text"
+          placeholder="Description"
+          value={desc}
+          onChange={(e) => setDesc(e.target.value)}
+        />
+
+        <button>Add</button>
+      </form>
+
+      {/* Filter Buttons */}
+      <div>
+        <button onClick={() => setFilter("all")}>All</button>
+        <button onClick={() => setFilter("done")}>Done</button>
+        <button onClick={() => setFilter("notdone")}>Not Done</button>
+      </div>
+
+      <ul>
+        {filteredTasks.map((task, index) => (
+          <li
+            key={index}
+            onClick={() => toggleTask(index)}
+            style={{
+              textDecoration: task.done ? "line-through" : "none",
+              cursor: "pointer",
+            }}
+          >
+            <b>{task.name}</b> {task.date} {task.desc}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default App;
+
+App.css
+body{
+  background: white;
+  font-family: cursive;
+  color: black;
+}
+h1{
+  text-align: center;
+  color: rgb(92, 1, 91);
+  font-family: cursive;
+}
+button{
+  background-color: purple;
+  color: white;
+  font-weight: bold;
+  margin-top: 5px;
+  padding: 10px;
+  
+}
+input{
+  margin-top: 5px;
+  padding: 10px;
+  background-color: white;
+  color: black;
+}
