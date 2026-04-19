@@ -8,7 +8,6 @@ function App() {
   const [desc, setDesc] = useState("");
   const [filter, setFilter] = useState("all");
 
-  // Add task
   const addTask = (e) => {
     e.preventDefault();
 
@@ -28,7 +27,6 @@ function App() {
     setDesc("");
   };
 
-  // Toggle done
   const toggleTask = (index) => {
     const updated = tasks.map((task, i) => {
       if (i === index) {
@@ -40,7 +38,6 @@ function App() {
     setTasks(updated);
   };
 
-  // Filter logic (VERY SIMPLE)
   const filteredTasks = tasks.filter((task) => {
     if (filter === "all") return true;
     if (filter === "done") return task.done === true;
@@ -75,7 +72,7 @@ function App() {
         <button>Add</button>
       </form>
 
-      {/* Filter Buttons */}
+
       <div>
         <button onClick={() => setFilter("all")}>All</button>
         <button onClick={() => setFilter("done")}>Done</button>
