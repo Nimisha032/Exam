@@ -1,0 +1,187 @@
+APP>JSX
+import { useState, useEffect } from "react";
+import './App.css';
+const Form = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: ""
+  });
+
+  const [errors, setErrors] = useState({});
+  const [submittedData, setSubmittedData] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  // handle input
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value.trim()
+    });
+  };
+
+  // validation
+  const validateForm = () => {
+    let err = {};
+    let valid = true;
+
+    if (!formData.name) {
+      err.name = "Name is required";
+      valid = false;
+    }
+
+    const emailPattern =
+      /^[a-zA-Z0-9._-]+@[a-zA-Z]+\.[a-zA-Z]{2,}$/;
+
+    if (!formData.email) {
+      err.email = "Email is required";
+      valid = false;
+    } else if (!emailPattern.test(formData.email)) {
+      err.email = "Enter valid email";
+      valid = false;
+    }
+
+    const passwordPattern =
+      /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{6,}$/;
+
+    if (!formData.password) {
+      err.password = "Password is required";
+      valid = false;
+    } else if (!passwordPattern.test(formData.password)) {
+      err.password =
+        "Min 6 chars, 1 uppercase, 1 number, 1 special char";
+      valid = false;
+    }
+
+    setErrors(err);
+    setIsFormValid(valid);
+  };
+
+  useEffect(() => {
+    validateForm();
+  }, [formData]);
+
+  // submit
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (isFormValid) {
+      setSubmittedData(formData);
+      setFormData({
+        name: "",
+        email: "",
+        password: ""
+      });
+    }
+  };
+
+  return (
+    <div className="form-container">
+      <h2>Registration Form</h2>
+
+      <form onSubmit={handleSubmit}>
+
+        <input
+          type="text"
+          name="name"
+          placeholder="Enter name"
+          value={formData.name}
+          onChange={handleChange}
+        />
+        <p>{errors.name}</p>
+
+        <input
+          type="email"
+          name="email"
+          placeholder="Enter email"
+          value={formData.email}
+          onChange={handleChange}
+        />
+        <p>{errors.email}</p>
+
+        <input
+          type={showPassword ? "text" : "password"}
+          name="password"
+          placeholder="Enter password"
+          value={formData.password}
+          onChange={handleChange}
+        />
+        <p>{errors.password}</p>
+
+        <label>
+          <input
+            type="checkbox"
+            onChange={() => setShowPassword(!showPassword)}
+          />
+          Show Password
+        </label>
+
+        <button type="submit" disabled={!isFormValid}>
+          Submit
+        </button>
+      </form>
+
+      {submittedData && (
+        <div>
+          <h3>Submitted Data</h3>
+          <p>Name: {submittedData.name}</p>
+          <p>Email: {submittedData.email}</p>
+          <p>Password: {submittedData.password}</p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Form;
+
+APP>CSS
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+}
+
+.form-container {
+  width: 300px;
+  margin: 80px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px gray;
+  text-align: center;
+}
+
+h2 {
+  color:black;
+  margin-bottom: 15px;
+}
+
+input {
+  width: 90%;
+  padding: 8px;
+  margin: 8px 0;
+  background: white;
+}
+
+p {
+  color: red;
+  font-size: 12px;
+  margin: 0;
+}
+
+button {
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+  background-color: rgb(67, 250, 6);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+
+label {
+  font-size: 14px;
+}
