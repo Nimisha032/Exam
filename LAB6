@@ -17,7 +17,7 @@ const Form = () => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value.trim()
+      [name]: value
     });
   };
 
@@ -156,6 +156,7 @@ h2 {
 }
 
 input {
+  color:black;
   width: 90%;
   padding: 8px;
   margin: 8px 0;
