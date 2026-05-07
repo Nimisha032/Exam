@@ -1,6 +1,7 @@
 APP>JSX
-import { useState, useEffect } from "react";
-import './App.css';
+import { useState } from "react";
+import "./index.css";
+
 const Form = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -11,7 +12,6 @@ const Form = () => {
   const [errors, setErrors] = useState({});
   const [submittedData, setSubmittedData] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
-  const [isFormValid, setIsFormValid] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,54 +23,35 @@ const Form = () => {
 
   const validateForm = () => {
     let err = {};
-    let valid = true;
 
-    if (!formData.name) {
+    if (!formData.name.trim()) {
       err.name = "Name is required";
-      valid = false;
     }
 
-    const emailPattern =
-      /^[a-zA-Z0-9._-]+@[a-zA-Z]+\.[a-zA-Z]{2,}$/;
-
-    if (!formData.email) {
-      err.email = "Email is required";
-      valid = false;
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z]+\.[a-zA-Z]{2,}$/;
+    if (!formData.email.trim()) {
+      err.email = "Email is required";  
     } else if (!emailPattern.test(formData.email)) {
       err.email = "Enter valid email";
-      valid = false;
     }
 
-    const passwordPattern =
-      /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{6,}$/;
-
+    const passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{6,}$/;
     if (!formData.password) {
       err.password = "Password is required";
-      valid = false;
     } else if (!passwordPattern.test(formData.password)) {
       err.password =
         "Min 6 chars, 1 uppercase, 1 number, 1 special char";
-      valid = false;
     }
 
     setErrors(err);
-    setIsFormValid(valid);
+    return Object.keys(err).length === 0;
   };
-
-  useEffect(() => {
-    validateForm();
-  }, [formData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (isFormValid) {
-      setSubmittedData(formData);
-      setFormData({
-        name: "",
-        email: "",
-        password: ""
-      });
+    if (validateForm()) {
+      setSubmittedData({ ...formData });
+    
     }
   };
 
@@ -79,7 +60,6 @@ const Form = () => {
       <h2>Registration Form</h2>
 
       <form onSubmit={handleSubmit}>
-
         <input
           type="text"
           name="name"
@@ -87,7 +67,7 @@ const Form = () => {
           value={formData.name}
           onChange={handleChange}
         />
-        <p>{errors.name}</p>
+        <p style={{ color: "red" }}>{errors.name}</p>
 
         <input
           type="email"
@@ -96,7 +76,7 @@ const Form = () => {
           value={formData.email}
           onChange={handleChange}
         />
-        <p>{errors.email}</p>
+        <p style={{ color: "red" }}>{errors.email}</p>
 
         <input
           type={showPassword ? "text" : "password"}
@@ -105,27 +85,26 @@ const Form = () => {
           value={formData.password}
           onChange={handleChange}
         />
-        <p>{errors.password}</p>
+        <p style={{ color: "red" }}>{errors.password}</p>
 
         <label>
           <input
             type="checkbox"
+            checked={showPassword}
             onChange={() => setShowPassword(!showPassword)}
           />
           Show Password
         </label>
 
-        <button type="submit" disabled={!isFormValid}>
-          Submit
-        </button>
+        <button type="submit">Submit</button>
       </form>
 
       {submittedData && (
-        <div>
+        <div className="submitted-block">
           <h3>Submitted Data</h3>
-          <p>Name: {submittedData.name}</p>
-          <p>Email: {submittedData.email}</p>
-          <p>Password: {submittedData.password}</p>
+          <p><strong>Name:</strong> {submittedData.name}</p>
+          <p><strong>Email:</strong> {submittedData.email}</p>
+          <p><strong>Password:</strong> {submittedData.password}</p>
         </div>
       )}
     </div>
@@ -133,6 +112,7 @@ const Form = () => {
 };
 
 export default Form;
+
 
 APP>CSS
 body {
